@@ -1,13 +1,16 @@
 <?php
     session_start();
-    if (!isset($_SESSION['id'])) {
-        $_SESSION['error'] = "Authentication required";
-        header('location:../Views/log.php');
-        exit;
+    require_once('../Class/UserAuth.php');
+    require_once('../Class/UserInfo.php');
+    require_once('../Class/UserUpdate.php');
+    $auth = new Auth();
+    $auth->need();
+    $userInfo = new UserInfo();
+    $userdata = $userInfo->userView();
+    $update = new UserUpdate();
+    if (isset($_POST['delete_id'])) {
+        $update->userDelete($_POST['delete_user_id']);
     }
-    require_once('../config/dbconfig.php');
-    $query = "SELECT * FROM users";
-	$userdata = mysqli_query($mysqli, $query);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,7 +24,7 @@
         <?php include 'header.php';?>
         <div>
             <?php
-                if (mysqli_num_rows($userdata) > 0) {
+                if (count($userdata) > 0) {
             ?>
                 <table border="1" cellpadding="10" cellspacing="0" style="width: 80%; margin: 20px auto; border-collapse: collapse;">
                 <tr>
@@ -32,17 +35,22 @@
                     <th>Action</th>
                 </tr>
             <?php
-                    while ($user = mysqli_fetch_assoc($userdata)) {
+                    foreach ($userdata as $user) {
                         echo '<tr>';
                         echo '<td>' . $user['ID'] . '</td>';
                         echo '<td>' . $user['name'] . '</td>';
                         echo '<td>' . $user['email'] . '</td>';
                         echo '<td>' . $user['address'] . '</td>';
                         if($user['ID'] == $_SESSION['id']){
-                            echo '<td>Your self</td>';
+                            echo '<td>Yourself</td>';
                         }
                         else{
-                            echo '<td><button><a href="../Class/UserDelete.php?id='. $user['ID'] .'">Delete</a></button></td>';
+                            echo '<td>';
+                            echo '<form method="POST" action="./users.php">';
+                            echo '<input type="hidden" name="delete_id" value="' . $user['ID'] . '">';
+                            echo '<button type="submit">Delete</button>';
+                            echo '</form>';
+                            echo '</td>';
                         }
                         
                         echo '</tr>';

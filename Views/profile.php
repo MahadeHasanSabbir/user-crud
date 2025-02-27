@@ -1,21 +1,18 @@
 <?php
     session_start();
-    if (!isset($_SESSION['id'])) {
-        $_SESSION['error'] = "Authentication required";
-        header('location:../Views/log.php');
-        exit;
-    }
-    require_once('../config/dbconfig.php');
-    $query = "SELECT * FROM users WHERE ID = '$_SESSION[id]'";
-	$userdata = mysqli_query($mysqli, $query);
-	$user = mysqli_fetch_assoc($userdata);
+    require_once('../Class/UserAuth.php');
+    require_once('../Class/UserInfo.php');
+    $auth = new Auth();
+    $auth->need();
+    $userinfo = new UserInfo();
+    $user = $userinfo->profileView();
 ?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Profile</title>
+        <title><?php echo $user['name'];?> | Profile</title>
         <link rel="stylesheet" href="style.css">
     </head>
     <body>

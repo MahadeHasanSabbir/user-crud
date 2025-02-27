@@ -5,7 +5,7 @@
         ?>
         <li><a href="./profile.php" class="<?php basename($_SERVER['PHP_SELF']) == 'profile.php' ? 'active' : ''; ?>">Dashboard</a></li>
         <li><a href="./users.php" class="<?php basename($_SERVER['PHP_SELF']) == 'users.php' ? 'active' : ''; ?>">Users</a></li>
-        <li style="float:right"><a href="../Class/UserLogout.php" class="<?php basename($_SERVER['PHP_SELF']) == 'UserLogout.php' ? 'active' : ''; ?>">Log out</a></li>
+        <li style="float:right"><a href="./logout.php" class="<?php basename($_SERVER['PHP_SELF']) == 'UserLogout.php' ? 'active' : ''; ?>">Log out</a></li>
         <?php
             }
             else {

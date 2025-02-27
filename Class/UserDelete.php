@@ -7,9 +7,11 @@
     }
     require_once('../config/dbconfig.php');
 
-    $query = "DELETE FROM users WHERE ID = '$_GET[id]'";
-    mysqli_query($mysqli, $query);
+    $query = $connect->prepare("DELETE FROM users WHERE ID = ?");
+    $query->bindParam(1, $_GET['id'], PDO::PARAM_INT);
+    $query->execute();
 
+    $connect = null;
     header('location:../Views/users.php');
     exit;
 ?>

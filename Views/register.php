@@ -1,3 +1,13 @@
+<?php
+    require_once('../Class/UserRegister.php');
+
+    $register = new Register();
+
+    if($_SERVER['REQUEST_METHOD'] == 'POST'){
+        $register->register();
+    }
+
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -12,7 +22,7 @@
             <h3>User Registration</h3>
             
             <!-- User Register Form -->
-            <form action="../Class/UserRegister.php" method="post">
+            <form action="register.php" method="post">
                 <input type="text" name="name" id="name" placeholder="Name" required><br>
                 <input type="email" name="email" id="email" placeholder="Email" required><br>
                 <input type="text" name="address" id="address" placeholder="Address" required><br>
