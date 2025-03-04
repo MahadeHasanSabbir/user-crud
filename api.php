@@ -142,6 +142,17 @@ switch ($requestUri) {
             http_response_code(405);
         }
         break;
+    
+    case '/user-crud/api.php/logout':
+        if ($requestMethod == 'POST') {
+            $response = $auth->logout();
+            echo json_encode($response);
+            http_response_code(200);
+        } else {
+            echo json_encode(['error' => 'Method Not Allowed']);
+            http_response_code(405);
+        }
+        break;
 
     default:
         echo json_encode(['error' => 'Not Found']);

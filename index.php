@@ -54,6 +54,8 @@ header('Content-Type: text/html; charset=UTF-8');
             <li><b>/user-crud/api.php/update/password</b> - Update your password (requires authentication)</li>
             <li><b>/user-crud/api.php/update/info</b> - Update your user information (requires authentication)</li>
             <li><b>/user-crud/api.php/users</b> - View all users (requires authentication)</li>
+            <li><b>/user-crud/api.php/delete/user</b> - Delete user (requires authentication)</li>
+            <li><b>/user-crud/api.php/logout</b> - Delete user (requires authentication)</li>
         </ul>
         <p>Use tools like Postman or cURL to interact with the API endpoints.</p>
     </div>
