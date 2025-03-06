@@ -15,6 +15,12 @@
 				exit;
 			}
 		}
+		public function has(){
+			if (isset($_SESSION['id'])) {
+				header('location:../Views/profile.php');
+				exit;
+			}
+		}
 		public function login(){
 			if(isset($_POST['email']) && isset($_POST['password'])) {
 				$email = $_POST['email'];
@@ -64,7 +70,7 @@
 			session_start();
 			$_SESSION['success'] = "You have logged out successfully.";
 	
-			header('Location: ../Views/log.php');
+			header('Location:../Views/log.php');
 			exit();
 		}
 	}

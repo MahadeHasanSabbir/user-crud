@@ -1,3 +1,9 @@
+<?php
+    require_once('../Class/UserAuth.php');
+
+    $auth = new Auth();
+    $auth->has();
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>

@@ -4,6 +4,8 @@
 
     $auth = new Auth();
 
+    $auth->has();
+
     if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $auth->login();
     }
@@ -32,8 +34,8 @@
             <h3>Log in</h3>
             
             <form action="log.php" method="post">
-                <input type="email" name="email" id="email" placeholder="Email" required><br>
-                <input type="password" name="password" id="password" placeholder="Password" required><br>
+                <input type="email" name="email" id="email" placeholder="Email" required><br><br>
+                <input type="password" name="password" id="password" placeholder="Password" required><br><br>
                 <button type="submit">log-in</button>
             </form>
         </div>

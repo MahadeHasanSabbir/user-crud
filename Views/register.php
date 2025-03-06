@@ -1,6 +1,10 @@
 <?php
     require_once('../Class/UserRegister.php');
+    require_once('../Class/UserAuth.php');
 
+    $auth = new Auth();
+    $auth->has();
+    
     $register = new Register();
 
     if($_SERVER['REQUEST_METHOD'] == 'POST'){
@@ -23,10 +27,10 @@
             
             <!-- User Register Form -->
             <form action="register.php" method="post">
-                <input type="text" name="name" id="name" placeholder="Name" required><br>
-                <input type="email" name="email" id="email" placeholder="Email" required><br>
-                <input type="text" name="address" id="address" placeholder="Address" required><br>
-                <input type="password" name="password" id="password" placeholder="Password" required><br>
+                <input type="text" name="name" id="name" placeholder="Name" required><br><br>
+                <input type="email" name="email" id="email" placeholder="Email" required><br><br>
+                <input type="text" name="address" id="address" placeholder="Address" required><br><br>
+                <input type="password" name="password" id="password" placeholder="Password" required><br><br>
                 <button type="submit">Register</button>
             </form>
         </div>

@@ -4,6 +4,8 @@
 
     $auth = new Auth();
 
+    $auth->need();
+
     $auth->logout();
     
 ?>
