@@ -1,4 +1,6 @@
 <?php
+  header('Content-Type: application/json');
+  
   session_start();
   if (!isset($_SESSION['id'])) {
     echo json_encode(['error' => 'Authentication required']);

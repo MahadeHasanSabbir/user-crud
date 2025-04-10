@@ -8,6 +8,7 @@
 			$db = new DBConfig();
 			$this->connect = $db->getConnection();
 		}
+
 		public function need(){
 			if (!isset($_SESSION['id'])) {
 				$_SESSION['error'] = "Authentication required";
@@ -15,52 +16,61 @@
 				exit;
 			}
 		}
+
 		public function has(){
 			if (isset($_SESSION['id'])) {
 				header('location:../Views/profile.php');
 				exit;
 			}
 		}
+
 		public function login(){
-			if(isset($_POST['email']) && isset($_POST['password'])) {
-				$email = $_POST['email'];
-				$password = $_POST['password'];
+			if(isset($_SERVER['REQUEST_METHOD']) == 'POST'){
+				if(isset($_POST['email']) && isset($_POST['password'])) {
+					$email = $_POST['email'];
+					$password = $_POST['password'];
 
-				$query = $this->connect->prepare("SELECT ID, password FROM users WHERE email = ?");
-				try {
-					$query->bindParam(1, $email, PDO::PARAM_STR);
-					$query->execute();
-					
-					$row = $query->fetch(PDO::FETCH_ASSOC);
+					$query = $this->connect->prepare("SELECT ID, password FROM users WHERE email = ?");
+					try {
+						$query->bindParam(1, $email, PDO::PARAM_STR);
+						$query->execute();
+						
+						$row = $query->fetch(PDO::FETCH_ASSOC);
 
-					if($row) {
-						if(password_verify($password, $row['password'])) {
-							$_SESSION['id'] = $row['ID'];
-							$this->connect = null;
-							header('location:../Views/profile.php');
-							exit;
+						if($row) {
+							if(password_verify($password, $row['password'])) {
+								$_SESSION['id'] = $row['ID'];
+								$this->connect = null;
+								header('location:../Views/profile.php');
+								exit;
+							} else {
+								$_SESSION['error'] = 'Incorrect password';
+								$this->connect = null;
+								header('location:../Views/log.php');
+								exit;
+							}
 						} else {
-							$_SESSION['error'] = 'Incorrect password';
-							$this->connect = null;
-							header('location:../Views/log.php');
-							exit;
-						}
-					} else {
-						$_SESSION['error'] = 'User not found';
-					}	
-				} catch (PDOException $e) {
-					$_SESSION['error'] = 'An error occurred while processing your request. Please try again.';
-				}
-				
+							$_SESSION['error'] = 'User not found';
+						}	
+					} catch (PDOException $e) {
+						$_SESSION['error'] = 'An error occurred while processing your request. Please try again.';
+					}
+					
+						$this->connect = null;
+						header('location:../Views/log.php');
+						exit;
+				} else {
 					$this->connect = null;
+					$_SESSION['error'] = 'Please enter both email and password';
 					header('location:../Views/log.php');
 					exit;
-			} else {
-				$this->connect = null;
-				$_SESSION['error'] = 'Please enter both email and password';
+				}
+			}  else {
+				$_SESSION['error'] = 'Method is not supported';
 				header('location:../Views/log.php');
 				exit;
-			}			
+			}
+						
 		}
 
 		public function logout() {

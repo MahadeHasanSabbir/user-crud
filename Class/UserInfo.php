@@ -10,7 +10,7 @@
 		}
 
 		public function profileView(){
-			$query = $this->connect->prepare("SELECT * FROM users WHERE ID = ?");
+			$query = $this->connect->prepare("SELECT ID, name, email, address FROM users WHERE ID = ?");
 			$query->bindParam(1, $_SESSION['id'], PDO::PARAM_INT);
 			$query->execute();
 			
@@ -21,7 +21,7 @@
 		}
 
 		public function userView(){
-			$query = $this->connect->prepare("SELECT * FROM users");
+			$query = $this->connect->prepare("SELECT ID, name, email, address FROM users");
 			$query->execute();
 
 			$result = $query->fetchAll(PDO::FETCH_ASSOC);

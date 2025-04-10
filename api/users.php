@@ -1,4 +1,6 @@
 <?php
+  header('Content-Type: application/json');
+  
   session_start();
   if (!isset($_SESSION['id'])) {
     echo json_encode(['error' => 'Authentication required']);
@@ -11,7 +13,7 @@
   $requestMethod = $_SERVER['REQUEST_METHOD'];
 
   if ($requestMethod == 'GET') {
-    $response = $userInfo->userView();
+    $response['data'] = $userInfo->userView();
     echo json_encode($response);
     http_response_code(200);
   } else {

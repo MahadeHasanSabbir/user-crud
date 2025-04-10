@@ -1,4 +1,6 @@
 <?php
+  header('Content-Type: application/json');
+  
   require_once('./UserRegister.php');
   $register = new Register();
   $requestMethod = $_SERVER['REQUEST_METHOD'];
