@@ -1,37 +1,42 @@
 <?php
-    include_once('../config/db_config.php');
-	
-	class Register{
-		private $connect;
+include_once('../config/db_config.php');
 
-		public function __construct() {
-			$db = new DBConfig();
-			$this->connect = $db->getConnection();
-		}
+class Register
+{
+	private $connect;
 
-		public function register(){
-			$name = $_POST['name'];
-			$email = $_POST['email'];
-			$address = $_POST['address'];
-			$password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+	public function __construct()
+	{
+		$db = new DBConfig();
+		$this->connect = $db->getConnection();
+	}
 
-			try {
-				$query = $this->connect->prepare("INSERT INTO users (name, password, email, address) VALUES (?, ?, ?, ?)");
-				$query->bindParam(1, $name, PDO::PARAM_STR);
-				$query->bindParam(2, $password, PDO::PARAM_STR);
-				$query->bindParam(3, $email, PDO::PARAM_STR);
-				$query->bindParam(4, $address, PDO::PARAM_STR);
-				$query->execute();
+	public function register()
+	{
+		$name = $_POST['name'];
+		$email = $_POST['email'];
+		$address = $_POST['address'];
+		$password = password_hash($_POST['password'], PASSWORD_BCRYPT);
 
-				$this->connect = null;
+		try {
+			$query = $this->connect->prepare("INSERT INTO users (name, password, email, address) VALUES (?, ?, ?, ?)");
+			$query->bindParam(1, $name, PDO::PARAM_STR);
+			$query->bindParam(2, $password, PDO::PARAM_STR);
+			$query->bindParam(3, $email, PDO::PARAM_STR);
+			$query->bindParam(4, $address, PDO::PARAM_STR);
+			$query->execute();
 
-				header("location:../Views/log.php");
-				exit;
-			} catch (PDOException $e) {
-				echo "Error: " . $e->getMessage();
-				exit;
-			}
+			$this->connect = null;
+
+			header("location:../Views/log.php");
+			exit;
+		} catch (PDOException $e) {
+			error_log("Registration failed: " . $e->getMessage());
+			$_SESSION['error'] = "Registration failed. This email might already be in use.";
+			header("location:../Views/register.php");
+			exit;
 		}
 	}
-	
+}
+
 ?>
