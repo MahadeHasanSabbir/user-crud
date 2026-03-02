@@ -1,13 +1,15 @@
 <?php
 
-class DBConfig {
+class DBConfig
+{
     private $host = "localhost";
     private $dbname = "user_crud";
     private $username = "root";
     private $password = "";
     public $connect;
 
-    public function getConnection() {
+    public function getConnection()
+    {
         $this->connect = null;
 
         try {
@@ -18,7 +20,10 @@ class DBConfig {
             );
             $this->connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) {
-            echo "Connection failed: " . $e->getMessage();
+            // Log the error internally
+            error_log("Database connection failed: " . $e->getMessage());
+            // Show a generic message to the user
+            die("We are experiencing technical difficulties. Please try again later.");
         }
 
         return $this->connect;
